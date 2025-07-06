@@ -43,6 +43,11 @@
 4. **推送数据库 Schema:**（[详细说明文档](./docs/DATABASE_zh.md)）
 
     ```bash
+    # 通过 docker 起一个数据库服务。
+    ./start-database.sh
+    ```
+
+    ```bash
     pnpm db:push
     ```
 
