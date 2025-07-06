@@ -1,19 +1,58 @@
-# Create T3 App
+# Fullstack Starter
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a starter project bootstrapped with the [T3 Stack](https://create.t3.gg/). It provides a solid foundation for building modern, full-stack web applications.
 
-## What's next? How do I make an app with this?
+## Design Philosophy
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+This starter is designed to be **minimalist and production-ready**. The goal is to provide just enough structure to get you started quickly, without imposing rigid design choices or unnecessary complexity.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Ready to Use**: Comes with a complete authentication system (sign-up, login, password reset), database integration, and email services pre-configured.
+- **Easy to Customize**: Includes only essential pages and components. No extra UI libraries are bundled, allowing you to bring your own or build from scratch.
+- **Fully Type-Safe**: End-to-end type safety from your database to your frontend, powered by TypeScript and Zod.
+- **Modern Stack**: Built on the Next.js App Router, ensuring you start with the latest web development standards.
+- **Dark Mode Included**: A pre-configured, theme-able dark mode is ready to go.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Core Technologies
+
+- [Next.js](https://nextjs.org) (App Router)
+- [better-auth](https://www.better-auth.com/)
+- [Drizzle ORM](https://orm.drizzle.team/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Resend](https://resend.com/) for email delivery
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Zod](https://zod.dev/) for environment and schema validation
+
+## Getting Started
+
+1. **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/your-repo/fullstack-starter.git
+    ```
+
+2. **Install dependencies:**
+
+    ```bash
+    pnpm install
+    ```
+
+3. **Set up environment variables:**
+    - Copy `.env.example` to `.env`.
+    - Fill in the required variables (database URL, auth secret, Resend API key).
+4. **Push the database schema:**（[Detail](./docs/DATABASE_zh.md)）
+
+    ```bash
+    pnpm db:push
+    ```
+
+5. **Run the development server:**
+
+    ```bash
+    pnpm dev
+    ```
+
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
 ## Learn More
 
