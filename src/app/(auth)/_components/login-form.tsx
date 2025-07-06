@@ -81,6 +81,14 @@ export function LoginForm() {
             Sign up
           </Link>
         </div>
+        <div className="mt-2 text-center text-sm">
+          <Link
+            href="/forgot-password"
+            className="underline"
+          >
+            Forgot your password?
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );
