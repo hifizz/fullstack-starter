@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSession, signOut } from "~/lib/auth-client";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { ThemeToggle } from "../theme-toggle";
 
 export function Header() {
   const { data: session, isPending: isLoading } = useSession();
@@ -39,7 +40,8 @@ export function Header() {
             </Button>
           </>
         )}
+        <ThemeToggle />
       </div>
     </header>
   );
-} 
+}
