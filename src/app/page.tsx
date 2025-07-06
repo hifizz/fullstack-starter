@@ -90,7 +90,7 @@ export default function HomePage() {
 					</Link>
 					<Link
 						className="flex items-center justify-center rounded-xl bg-white/10 px-6 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-						href="https://github.com/hifzz/fullstack-starter"
+						href="https://github.com/hifizz/fullstack-starter"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
