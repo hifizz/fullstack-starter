@@ -8,4 +8,4 @@
 - [x] 1.7 Update docs to explain the RPC usage and auth requirements.
 - [x] 1.8 Add a client error handling helper and usage example.
 - [x] 1.9 Add a demo page that mounts the RPC example component.
-- [ ] 1.10 Run pnpm format:check, pnpm lint, and pnpm typecheck.
+- [x] 1.10 Run pnpm format:check, pnpm lint, and pnpm typecheck.
