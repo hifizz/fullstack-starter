@@ -2,13 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { signUp } from "~/lib/auth-client";
@@ -35,7 +29,7 @@ export function SignUpForm() {
       } else {
         router.push("/");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred.");
     }
   };
@@ -44,9 +38,7 @@ export function SignUpForm() {
     <Card className="mx-auto max-w-sm">
       <CardHeader>
         <CardTitle className="text-2xl">Sign Up</CardTitle>
-        <CardDescription>
-          Enter your information to create an account
-        </CardDescription>
+        <CardDescription>Enter your information to create an account</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="grid gap-4">
@@ -89,4 +81,4 @@ export function SignUpForm() {
       </CardContent>
     </Card>
   );
-} 
+}
