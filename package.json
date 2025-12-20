@@ -30,6 +30,7 @@
     ]
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.7.6",
     "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
@@ -66,6 +67,7 @@
     "drizzle-orm": "^0.41.0",
     "embla-carousel-react": "^8.6.0",
     "fullstack-starter": "link:",
+    "hono": "^4.11.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.525.0",
     "next": "^16.1.0",
