@@ -53,7 +53,7 @@ export default function HomePage() {
       <div className="container relative flex flex-col items-center justify-center gap-12 px-4 py-16 z-10">
         <div className="text-center">
           <h1 className="font-extrabold text-5xl text-white tracking-tight sm:text-[5rem]">
-            Fullstack Starter ---
+            Fullstack Starter
           </h1>
           <p className="mt-2 text-2xl text-white/80">
             Crafted by{" "}
