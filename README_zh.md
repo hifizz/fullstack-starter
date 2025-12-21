@@ -40,6 +40,7 @@
 3. **配置环境变量:**
    - 将 `.env.example` 复制为 `.env`。
    - 填入必要的变量 (数据库连接字符串、Auth密钥、Resend API密钥)。
+   - 若需扩展跨域访问，请配置 `AUTH_ALLOWED_ORIGINS`（逗号分隔）。
 4. **推送数据库 Schema:**（[详细说明文档](./docs/DATABASE_zh.md)）
 
    ```bash

@@ -3,12 +3,29 @@ import { Hono } from "hono";
 import type { MiddlewareHandler } from "hono";
 import { z } from "zod";
 import { auth } from "~/lib/auth";
+import type { AuthMeResponseDTO } from "~/types/auth";
 
 type SessionData = NonNullable<Awaited<ReturnType<typeof auth.api.getSession>>>;
 
 type RpcVariables = {
   session: SessionData;
 };
+
+function toAuthMeResponse(session: SessionData): AuthMeResponseDTO {
+  return {
+    user: {
+      id: session.user.id,
+      email: session.user.email,
+      name: session.user.name ?? null,
+      image: session.user.image ?? null,
+      plan: null,
+    },
+    session: {
+      id: session.session.id,
+      expiresAt: new Date(session.session.expiresAt).toISOString(),
+    },
+  };
+}
 
 const requireSession: MiddlewareHandler<{ Variables: RpcVariables }> = async (c, next) => {
   const session = await auth.api.getSession({
@@ -39,7 +56,7 @@ const routes = app
   })
   .get("/rpc/me", requireSession, (c) => {
     const session = c.get("session");
-    return c.json({ user: session.user, session: session.session });
+    return c.json(toAuthMeResponse(session));
   });
 
 export type AppType = typeof routes;
