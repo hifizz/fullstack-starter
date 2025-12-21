@@ -18,7 +18,7 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator((name) => `fullstack-starter_${name}`);
+export const createTable = pgTableCreator((name) => `chat_aside_${name}`);
 
 export const posts = createTable(
   "post",
