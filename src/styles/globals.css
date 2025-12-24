@@ -5,7 +5,10 @@
 
 @theme {
   --font-sans:
-    var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    var(--font-manrope), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-display:
+    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
@@ -49,6 +52,14 @@
 
 :root {
   --radius: 0.625rem;
+  --marketing-ink: #0b0d12;
+  --marketing-muted: #4b5568;
+  --marketing-surface: #f5f6f8;
+  --marketing-panel: #ffffff;
+  --marketing-border: #e2e8f0;
+  --marketing-accent: #0ea5e9;
+  --marketing-accent-strong: #0284c7;
+  --marketing-glow: rgba(14, 165, 233, 0.2);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -122,5 +133,39 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .animate-rise {
+    animation: rise 0.8s ease-out both;
+  }
+
+  .animate-fade {
+    animation: fade 0.6s ease-out both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
