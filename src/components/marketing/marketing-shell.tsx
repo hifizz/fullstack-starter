@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CookieSettingsLink } from "~/components/marketing/cookie-settings-link";
 import { MarketingMobileMenu } from "~/components/marketing/marketing-mobile-menu";
 
 const navItems = [
@@ -81,7 +80,6 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
             <Link href="/faq" className="hover:text-[color:var(--marketing-ink)]">
               FAQ
             </Link>
-            <CookieSettingsLink />
           </div>
         </div>
       </footer>

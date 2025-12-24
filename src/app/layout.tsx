@@ -3,9 +3,6 @@ import "~/styles/globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { AnalyticsScripts } from "~/components/marketing/analytics-scripts";
-import { CookieConsentToast } from "~/components/marketing/cookie-consent-toast";
-import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "ChatKeep – The Missing OS for AI Chats",
@@ -59,9 +56,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           disableTransitionOnChange
         >
           {children}
-          <CookieConsentToast />
-          <Toaster position="bottom-right" richColors />
-          <AnalyticsScripts />
         </ThemeProvider>
       </body>
     </html>
