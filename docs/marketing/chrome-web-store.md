@@ -24,7 +24,7 @@ Your data stays on your device. No selling, no training, no tracking.
 COMING SOON
 - Prompt Library button in the input box
 - Share links
-- Cloud sync (Pro)
+- Cloud sync (paid plans)
 
 ## Screenshot Captions
 1) The missing OS for your AI chats.

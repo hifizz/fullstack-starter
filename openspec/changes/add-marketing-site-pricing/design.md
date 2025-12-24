@@ -21,7 +21,7 @@
 - 平台支持：Gemini 已支持；ChatGPT 与 Deepseek 标注为 Coming soon。
 - 导出能力：当前仅承诺 Markdown，其他格式（PDF/HTML/JSON）标注 Coming soon。
 - 未来能力：Prompt Library、Share Link、Cloud Sync 以 Coming soon 呈现。
-- 定价结构：Free / Pro / Team，计划名称需为可配置常量；定价美元，Stripe 收款并允许按国家差异化定价。
+- 定价结构：Free / Monthly / Annual，计划名称需为可配置常量；定价美元，Stripe 收款并允许按国家差异化定价；年付包含优惠说明。
 
 ## Risks / Trade-offs
 - 过度承诺风险：若未清晰标注 Coming soon，可能导致商店审核问题或用户预期偏差。

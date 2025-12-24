@@ -22,7 +22,7 @@ Required Q&A (English):
 - Q: "Is ChatKeep safe?"\n  A: "Yes. It is local-first. Your data stays on your device."
 - Q: "Which platforms are supported?"\n  A: "Gemini is supported now. ChatGPT and Deepseek are coming soon."
 - Q: "Can I export conversations?"\n  A: "Yes. You can export to Markdown now. PDF/HTML/JSON are coming soon."
-- Q: "Does ChatKeep provide cloud sync?"\n  A: "Not yet. Cloud sync is planned for Pro."
+- Q: "Does ChatKeep provide cloud sync?"\n  A: "Not yet. Cloud sync is planned for paid plans."
 
 #### Scenario: AEO 直答可用
 - **WHEN** 用户或 AI 引擎检索 FAQ

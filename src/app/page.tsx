@@ -11,22 +11,23 @@ const featureCards = [
   {
     title: "Highlight & Memo",
     description: "Select any text to leave a memo and keep context while reading.",
-    status: "Coming soon",
+    status: "Available now",
   },
-  {
-    title: "TOC minimap navigation",
-    description: "Jump through long threads instantly with a sidebar outline.",
-    status: "Coming soon",
-  },
+
   {
     title: "Lightning search",
     description: "Search every saved chat in milliseconds and jump back to the source.",
-    status: "Coming soon",
+    status: "Available now",
   },
   {
     title: "Export to Markdown",
     description: "Export conversations locally with clean Markdown formatting.",
     status: "Available now",
+  },
+  {
+    title: "TOC minimap navigation",
+    description: "Jump through long threads instantly with a sidebar outline.",
+    status: "Coming soon",
   },
   {
     title: "Share links",
@@ -76,15 +77,9 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center gap-4">
               <Link
                 href="/install"
-                className="inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[color:var(--marketing-accent-strong)]"
+                className="inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
               >
                 Install for Chrome
-              </Link>
-              <Link
-                href="/pricing"
-                className="inline-flex items-center justify-center rounded-full border border-[color:var(--marketing-border)] px-6 py-3 text-sm font-semibold text-[color:var(--marketing-ink)] transition hover:border-[color:var(--marketing-ink)]"
-              >
-                See pricing
               </Link>
             </div>
             <div className="flex flex-wrap gap-3 text-xs text-[color:var(--marketing-muted)]">
@@ -288,15 +283,9 @@ export default function HomePage() {
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/install"
-            className="inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[color:var(--marketing-accent-strong)]"
+            className="inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
           >
             Install for Chrome
-          </Link>
-          <Link
-            href="/pricing"
-            className="inline-flex items-center justify-center rounded-full border border-[color:var(--marketing-border)] px-6 py-3 text-sm font-semibold text-[color:var(--marketing-ink)] transition hover:border-[color:var(--marketing-ink)]"
-          >
-            Compare plans
           </Link>
         </div>
       </section>

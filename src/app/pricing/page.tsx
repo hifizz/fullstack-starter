@@ -15,7 +15,7 @@ export default function PricingPage() {
           </h1>
           <p className="text-sm text-[color:var(--marketing-muted)]">
             All plans are billed in USD via Stripe. Regional pricing may apply based on your
-            location.
+            location. Annual plans include two months free.
           </p>
         </div>
 
@@ -42,7 +42,7 @@ export default function PricingPage() {
                       <span
                         className={`mt-1 h-2.5 w-2.5 rounded-full ${
                           feature.status === "available"
-                            ? "bg-[color:var(--marketing-accent)]"
+                            ? "bg-[color:var(--marketing-ink)]"
                             : "border border-[color:var(--marketing-border)]"
                         }`}
                       />
@@ -61,7 +61,7 @@ export default function PricingPage() {
 
               <Link
                 href="/install"
-                className="mt-6 inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[color:var(--marketing-accent-strong)]"
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
               >
                 {plan.cta}
               </Link>
@@ -71,8 +71,8 @@ export default function PricingPage() {
 
         <div className="rounded-3xl border border-[color:var(--marketing-border)] bg-white p-6 text-sm text-[color:var(--marketing-muted)]">
           <p>
-            Local-first by default. Cloud sync and share links will be opt-in features and will only
-            appear in Pro and above once available.
+            Local-first by default. Cloud sync and share links will be opt-in features for paid
+            plans once available.
           </p>
         </div>
       </section>

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { CookieSettingsLink } from "~/components/marketing/cookie-settings-link";
+import { MarketingMobileMenu } from "~/components/marketing/marketing-mobile-menu";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -13,13 +15,13 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[color:var(--marketing-surface)] text-[color:var(--marketing-ink)]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.16),_transparent_55%)]" />
-        <div className="absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,_rgba(20,184,166,0.2),_transparent_60%)] blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0.12),_transparent_55%)]" />
+        <div className="absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,_rgba(15,23,42,0.12),_transparent_60%)] blur-3xl" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.06)_0%,_rgba(15,23,42,0)_55%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(transparent_0,_transparent_24px,_rgba(15,23,42,0.04)_24px,_rgba(15,23,42,0.04)_25px)] bg-[length:100%_25px]" />
       </div>
 
-      <header className="relative z-10">
+      <header className="relative z-30">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <Link href="/" className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[color:var(--marketing-ink)] text-white">
@@ -46,15 +48,12 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/pricing"
-              className="hidden rounded-full border border-[color:var(--marketing-border)] px-4 py-2 text-sm text-[color:var(--marketing-muted)] transition hover:text-[color:var(--marketing-ink)] md:inline-flex"
-            >
-              View Pricing
-            </Link>
+            <div className="lg:hidden">
+              <MarketingMobileMenu items={navItems} />
+            </div>
             <Link
               href="/install"
-              className="inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[color:var(--marketing-accent-strong)]"
+              className="inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
             >
               Install for Chrome
             </Link>
@@ -82,6 +81,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
             <Link href="/faq" className="hover:text-[color:var(--marketing-ink)]">
               FAQ
             </Link>
+            <CookieSettingsLink />
           </div>
         </div>
       </footer>

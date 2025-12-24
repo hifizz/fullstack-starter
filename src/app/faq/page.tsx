@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     question: "Does ChatKeep provide cloud sync?",
-    answer: "Not yet. Cloud sync is planned for Pro.",
+    answer: "Not yet. Cloud sync is planned for paid plans.",
   },
 ];
 

@@ -6,7 +6,7 @@
 ## What Changes
 - 新增英文官网信息架构与页面文案（Home/Install/Pricing/Blog/FAQ/Changelog/Privacy/Terms）。
 - 明确品牌定位语："ChatKeep: The missing OS for your AI chats. Aggregate, Highlight, Search, and Export your conversations locally."
-- 定义 Free/Pro/Team 三档定价文案，并要求在站点实现中将计划名称配置为常量，便于后续更名。
+- 定义 Free/Monthly/Annual 三档定价文案，并要求在站点实现中将计划名称配置为常量，便于后续更名。
 - 准备 Chrome Web Store 的标题/短描述/长描述与截图文案，并标注功能可用性与“Coming soon”。
 - 设计 SEO/AEO 内容（Meta、关键词、FAQ 直答），全部英文。
 

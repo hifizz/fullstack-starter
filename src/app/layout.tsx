@@ -1,8 +1,11 @@
 import "~/styles/globals.css";
 
 import type { Metadata } from "next";
-import { Manrope, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { AnalyticsScripts } from "~/components/marketing/analytics-scripts";
+import { CookieConsentToast } from "~/components/marketing/cookie-consent-toast";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "ChatKeep – The Missing OS for AI Chats",
@@ -20,23 +23,19 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const manrope = Manrope({
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-geist-sans",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-geist-mono",
 });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} ${spaceGrotesk.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -60,6 +59,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           disableTransitionOnChange
         >
           {children}
+          <CookieConsentToast />
+          <Toaster position="bottom-right" richColors />
+          <AnalyticsScripts />
         </ThemeProvider>
       </body>
     </html>
