@@ -1,5 +1,8 @@
 import type { FlatRefundCreated, FlatSubscriptionEvent } from "@creem_io/better-auth";
+import { eq } from "drizzle-orm";
 import type { BillingProvider, PlanKey } from "~/lib/billing/types";
+import { db } from "~/server/db";
+import { user } from "~/server/db/schema";
 import { getCreemProductId } from "./config";
 import {
   getSubscriptionByProviderId,
@@ -18,10 +21,19 @@ const mapPlanKeyFromProductId = (productId: string): PlanKey | null => {
   return null;
 };
 
-const resolveUserId = (metadata: Record<string, unknown> | undefined) => {
+const findUserIdByEmail = async (email: string | null | undefined) => {
+  if (!db || !email) return null;
+  const rows = await db.select({ id: user.id }).from(user).where(eq(user.email, email)).limit(1);
+  return rows[0]?.id ?? null;
+};
+
+const resolveUserId = async (
+  metadata: Record<string, unknown> | undefined,
+  customerEmail: string | null | undefined,
+) => {
   const ref = metadata?.referenceId ?? metadata?.userId ?? metadata?.user_id;
-  if (!ref) return null;
-  return String(ref);
+  if (ref) return String(ref);
+  return await findUserIdByEmail(customerEmail);
 };
 
 const mapCreemStatus = (
@@ -43,9 +55,18 @@ const mapCreemStatus = (
   return "canceled" as const;
 };
 
+const toDate = (value: unknown) => {
+  if (!value) return null;
+  if (value instanceof Date) return value;
+  const date = new Date(value as string);
+  if (Number.isNaN(date.getTime())) return null;
+  return date;
+};
+
 export const syncCreemSubscriptionEvent = async (event: FlatSubscriptionEvent<string>) => {
   const eventRecorded = await recordWebhookEvent(PROVIDER, event.webhookId, event.webhookEventType);
-  if (!eventRecorded) return;
+  const existingSubscription = await getSubscriptionByProviderId(PROVIDER, event.id);
+  if (!eventRecorded && existingSubscription) return;
 
   const planKeyFromMetaRaw = event.metadata?.planKey;
   const planKeyFromMeta =
@@ -59,20 +80,25 @@ export const syncCreemSubscriptionEvent = async (event: FlatSubscriptionEvent<st
 
   if (!planKey) return;
 
-  const userId = resolveUserId(event.metadata);
+  const userId = await resolveUserId(event.metadata, event.customer.email);
   if (!userId) return;
 
-  const status = mapCreemStatus(event.status, event.current_period_end_date, event.canceled_at);
+  const currentPeriodStart = toDate(event.current_period_start_date);
+  const currentPeriodEnd = toDate(event.current_period_end_date);
+  if (!currentPeriodStart || !currentPeriodEnd) return;
+
+  const canceledAt = toDate(event.canceled_at);
+  const status = mapCreemStatus(event.status, currentPeriodEnd, canceledAt);
 
   await upsertSubscription({
     userId,
     planKey,
     provider: PROVIDER,
     status,
-    currentPeriodStart: event.current_period_start_date,
-    currentPeriodEnd: event.current_period_end_date,
-    cancelAtPeriodEnd: event.canceled_at !== null,
-    trialEndsAt: status === "trial" ? event.current_period_end_date : undefined,
+    currentPeriodStart,
+    currentPeriodEnd,
+    cancelAtPeriodEnd: canceledAt !== null,
+    trialEndsAt: status === "trial" ? currentPeriodEnd : undefined,
     providerCustomerId: event.customer.id,
     providerSubscriptionId: event.id,
     trialUsed: status === "trial",
