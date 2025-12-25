@@ -7,6 +7,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { signUp } from "~/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { notifyAuthRefresh } from "~/lib/extension";
 
 export function SignUpForm() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export function SignUpForm() {
       if (result.error) {
         setError(result.error.message ?? "An unknown error occurred");
       } else {
+        notifyAuthRefresh();
         router.push("/");
       }
     } catch (_err) {

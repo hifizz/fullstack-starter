@@ -8,5 +8,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["fullstack-starter_*"],
+  tablesFilter: ["chat_aside_*"],
 } satisfies Config;

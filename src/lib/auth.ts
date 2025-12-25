@@ -19,7 +19,7 @@ const creemPlugin = env.CREEM_API_KEY
       apiKey: env.CREEM_API_KEY,
       webhookSecret: env.CREEM_WEBHOOK_SECRET,
       testMode: env.NODE_ENV !== "production",
-      defaultSuccessUrl: "/pricing?checkout=success",
+      defaultSuccessUrl: "/billing/success",
       persistSubscriptions: false,
       onSubscriptionActive: syncCreemSubscriptionEvent,
       onSubscriptionTrialing: syncCreemSubscriptionEvent,

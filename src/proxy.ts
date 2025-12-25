@@ -3,6 +3,8 @@ import { NextResponse, type NextRequest } from "next/server";
 const DEFAULT_ALLOWED_ORIGINS = [
   "https://chat-aside.zilin.im",
   "https://dev-chat-aside.zilin.im",
+  "https://chatkeep.dev",
+  "https://dev.chatkeep.dev",
   "chrome-extension://ajmlmkmckibkifaofppjellodbfmhkkb",
   "http://localhost:3030",
   "http://localhost:3000",

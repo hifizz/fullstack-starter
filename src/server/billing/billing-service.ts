@@ -13,7 +13,7 @@ import { resolveRedirectUrl } from "./redirects";
 import { createStripeCheckout } from "./stripe";
 import { hasUsedTrial } from "./subscription-repo";
 
-const DEFAULT_SUCCESS_PATH = "/pricing?checkout=success";
+const DEFAULT_SUCCESS_PATH = "/billing/success";
 const DEFAULT_CANCEL_PATH = "/pricing?checkout=cancel";
 
 const assertPlanKey = (planKey: PlanKey) => {

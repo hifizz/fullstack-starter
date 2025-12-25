@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "~/lib/auth-client";
 import { Button } from "~/components/ui/button";
+import { notifyAuthRefresh } from "~/lib/extension";
 
 export default function LogoutPage() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function LogoutPage() {
       try {
         await signOut();
       } finally {
+        notifyAuthRefresh();
         setIsSigningOut(false);
         router.replace("/login");
       }
