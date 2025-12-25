@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "~/server/db";
-import { billingWebhookEvent, userSubscription } from "~/server/db/schema";
+import { billingWebhookEvent, user, userSubscription } from "~/server/db/schema";
 import type { BillingProvider, PlanKey, SubscriptionStatus } from "~/lib/billing/types";
 import { getPastDueGraceDays } from "./config";
 
@@ -113,6 +113,30 @@ export const getSubscriptionByProviderId = async (
     )
     .limit(1);
   return rows[0] ?? null;
+};
+
+export const getSubscriptionByCustomerId = async (
+  provider: BillingProvider,
+  providerCustomerId: string,
+) => {
+  if (!db) return null;
+  const rows = await db
+    .select()
+    .from(userSubscription)
+    .where(
+      and(
+        eq(userSubscription.provider, provider),
+        eq(userSubscription.providerCustomerId, providerCustomerId),
+      ),
+    )
+    .limit(1);
+  return rows[0] ?? null;
+};
+
+export const findUserIdByEmail = async (email: string | null | undefined) => {
+  if (!db || !email) return null;
+  const rows = await db.select({ id: user.id }).from(user).where(eq(user.email, email)).limit(1);
+  return rows[0]?.id ?? null;
 };
 
 export const hasUsedTrial = async (userId: string) => {

@@ -16,6 +16,7 @@
 - 使用 Creem Better Auth 插件管理 Checkout/Portal 与 Webhook，同步订阅状态到本地表。
 - `isPro` 表示访问权限：`trial | active | grace | past_due` 为 true，其它为 false；`plan.status` 区分试用与付费，避免误判。
 - 订阅试用期由 `SUBSCRIPTION_TRIAL_DAYS` 控制，默认 7 天；past_due 宽限期由 `PAST_DUE_GRACE_DAYS` 控制（默认 5 天）；Stripe 使用 `trial_period_days`，Creem 以产品配置为准并同步本地状态。
+- 订阅身份绑定以内部 `userId` 为主键：checkout metadata 传递 `referenceId=userId`，Webhook 优先使用 referenceId 解析用户；providerCustomerId 作为稳定映射保存，email 仅作兜底。
 
 ## Architecture
 ```mermaid
@@ -68,6 +69,7 @@ flowchart LR
 - SubscriptionRepo: 订阅状态的持久化与查询（本地表）。
 - ProfileService: 组合订阅状态与用户信息，计算 `isPro` 与 `plan`。
 - Webhook Handlers: Stripe 与 Creem webhook 入口，仅做校验与事件转译（【HIGH】需明确签名校验与幂等策略）。
+- Identity Mapping: 订阅绑定优先使用 metadata.referenceId，其次 providerCustomerId，最后 email 兜底；providerCustomerId 持久化用于对账与订阅管理。
 
 ## Security Checkpoints
 - Webhook 必须验证签名（Stripe/Creem），签名缺失或无效直接拒绝。
@@ -76,6 +78,7 @@ flowchart LR
 - Stripe 试用必须在创建 Checkout 前校验“仅一次试用”规则（跨 provider 统一约束）。
 - past_due 宽限期超时需自动降级（定时任务或读取时强制判定）。
 - 订阅操作必须基于当前会话用户，不接受前端传入 userId。
+- Webhook 解析用户时禁止以 email 作为唯一主键，email 仅作兜底映射。
 
 ## Risk Flags
 - 【HIGH】Webhook 签名校验与幂等策略未在实现前明确定义。
@@ -136,6 +139,14 @@ export type SubscriptionRecordDTO = {
   providerSubscriptionId?: string | null;
 };
 
+export type BillingIdentityDTO = {
+  userId: string;
+  provider: BillingProvider;
+  providerCustomerId?: string | null;
+  providerSubscriptionId?: string | null;
+  email?: string | null;
+};
+
 export type ProfilePlanDTO = {
   key: PlanKey;
   status: SubscriptionStatus | null;
@@ -174,11 +185,11 @@ sequenceDiagram
   UI->>RPC: CheckoutRequestDTO(planKey, provider)
   RPC->>Billing: createCheckout
   alt provider = stripe
-    Billing->>Stripe: 创建 Checkout Session
+    Billing->>Stripe: 创建 Checkout Session (metadata.referenceId)
     Stripe-->>UI: checkout_url
     Stripe-->>Webhook: 订阅/退款事件
   else provider = creem
-    UI->>Auth: creem.createCheckout(productId)
+    UI->>Auth: creem.createCheckout(productId, metadata.referenceId)
     Auth-->>UI: checkout_url
     Auth-->>Webhook: Creem webhook
   end
@@ -225,4 +236,4 @@ flowchart TD
 - 新增 checkout 与 webhook 接口后，逐步把前端订阅入口切换到新流程。
 
 ## Open Questions
-- Creem 的 `productId`（monthly/annual）等待提供。
+- 已提供 Creem 的 `productId`（monthly/annual），后续仅需保持环境变量同步。

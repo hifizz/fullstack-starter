@@ -3,6 +3,8 @@ import { env } from "~/env";
 import type { BillingProvider, PlanKey } from "~/lib/billing/types";
 import { getBillingCurrency, getPlanConfig, getTrialDays } from "./config";
 import {
+  findUserIdByEmail,
+  getSubscriptionByCustomerId,
   getSubscriptionByProviderId,
   recordWebhookEvent,
   updateSubscriptionStatus,
@@ -63,13 +65,29 @@ const resolvePlanKey = (subscription: Stripe.Subscription): PlanKey | null => {
   return null;
 };
 
-const resolveUserId = (subscription: Stripe.Subscription, session?: Stripe.Checkout.Session) => {
+const resolveUserId = async (
+  subscription: Stripe.Subscription,
+  session?: Stripe.Checkout.Session,
+) => {
   const metadataUserId =
     subscription.metadata?.userId ||
     session?.metadata?.userId ||
     subscription.metadata?.referenceId;
   if (metadataUserId) return String(metadataUserId);
   if (session?.client_reference_id) return session.client_reference_id;
+  const customerId =
+    typeof subscription.customer === "string" ? subscription.customer : subscription.customer?.id;
+  if (customerId) {
+    const record = await getSubscriptionByCustomerId(PROVIDER, customerId);
+    if (record) return record.userId;
+  }
+  const customer =
+    typeof subscription.customer === "string" ? null : (subscription.customer ?? null);
+  const customerEmail = customer && "email" in customer ? (customer.email ?? undefined) : undefined;
+  const email = session?.customer_details?.email ?? session?.customer_email ?? customerEmail;
+  if (email) {
+    return await findUserIdByEmail(email);
+  }
   return null;
 };
 
@@ -139,7 +157,7 @@ const syncStripeSubscription = async (
   subscription: Stripe.Subscription,
   session?: Stripe.Checkout.Session,
 ) => {
-  const userId = resolveUserId(subscription, session);
+  const userId = await resolveUserId(subscription, session);
   if (!userId) return;
 
   const planKey = resolvePlanKey(subscription);

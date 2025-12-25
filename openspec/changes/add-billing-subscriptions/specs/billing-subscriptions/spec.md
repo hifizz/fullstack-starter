@@ -31,6 +31,21 @@
 - **WHEN** 收到退款成功事件
 - **THEN** 订阅状态更新为 refunded 且 `isPro=false`
 
+### Requirement: 订阅身份绑定与回调解析
+系统 SHALL 使用内部 userId 作为订阅绑定主键，并在 checkout metadata 中传递 referenceId；Webhook 回调解析用户时优先使用 referenceId，其次使用 providerCustomerId 映射，最后才允许 email 兜底匹配。
+
+#### Scenario: metadata 绑定成功
+- **WHEN** Webhook 事件包含 metadata.referenceId
+- **THEN** 订阅记录绑定到对应 userId
+
+#### Scenario: metadata 缺失走 providerCustomerId
+- **WHEN** Webhook 事件缺少 metadata.referenceId 但包含 customer.id
+- **THEN** 系统使用 providerCustomerId 映射到用户
+
+#### Scenario: 仅 email 兜底匹配
+- **WHEN** 既无 metadata.referenceId 也无 providerCustomerId 映射
+- **THEN** 系统仅在存在 email 时执行兜底匹配
+
 ### Requirement: Webhook 签名校验与幂等处理
 系统 SHALL 验证 Stripe 与 Creem Webhook 的签名，并对重复事件进行幂等处理，避免重复更新订阅状态。
 

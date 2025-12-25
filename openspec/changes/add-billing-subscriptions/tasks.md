@@ -7,6 +7,7 @@
 - [x] 1.6 Creem Better Auth 插件接入（server/client）并通过回调同步订阅表。
 - [x] 1.7 `/api/rpc/me` 返回 `isPro + plan`（含 trial/grace/past_due 等状态）。
 - [x] 1.8 前端订阅入口加入 provider 选择并传递 `planKey + provider`。
+- [x] 1.9 订阅身份绑定逻辑（metadata.referenceId -> providerCustomerId -> email 兜底）。
 
 ## 2. Validation
 - [x] 2.1 `pnpm lint`

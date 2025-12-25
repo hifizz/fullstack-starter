@@ -1,10 +1,9 @@
 import type { FlatRefundCreated, FlatSubscriptionEvent } from "@creem_io/better-auth";
-import { eq } from "drizzle-orm";
 import type { BillingProvider, PlanKey } from "~/lib/billing/types";
-import { db } from "~/server/db";
-import { user } from "~/server/db/schema";
 import { getCreemProductId } from "./config";
 import {
+  findUserIdByEmail,
+  getSubscriptionByCustomerId,
   getSubscriptionByProviderId,
   recordWebhookEvent,
   updateSubscriptionStatus,
@@ -21,18 +20,17 @@ const mapPlanKeyFromProductId = (productId: string): PlanKey | null => {
   return null;
 };
 
-const findUserIdByEmail = async (email: string | null | undefined) => {
-  if (!db || !email) return null;
-  const rows = await db.select({ id: user.id }).from(user).where(eq(user.email, email)).limit(1);
-  return rows[0]?.id ?? null;
-};
-
 const resolveUserId = async (
   metadata: Record<string, unknown> | undefined,
+  customerId: string | null | undefined,
   customerEmail: string | null | undefined,
 ) => {
   const ref = metadata?.referenceId ?? metadata?.userId ?? metadata?.user_id;
   if (ref) return String(ref);
+  if (customerId) {
+    const record = await getSubscriptionByCustomerId(PROVIDER, customerId);
+    if (record) return record.userId;
+  }
   return await findUserIdByEmail(customerEmail);
 };
 
@@ -80,7 +78,7 @@ export const syncCreemSubscriptionEvent = async (event: FlatSubscriptionEvent<st
 
   if (!planKey) return;
 
-  const userId = await resolveUserId(event.metadata, event.customer.email);
+  const userId = await resolveUserId(event.metadata, event.customer.id, event.customer.email);
   if (!userId) return;
 
   const currentPeriodStart = toDate(event.current_period_start_date);
