@@ -61,6 +61,13 @@ const toDate = (value: unknown) => {
   return date;
 };
 
+export const __test__ = {
+  mapPlanKeyFromProductId,
+  resolveUserId,
+  mapCreemStatus,
+  toDate,
+};
+
 export const syncCreemSubscriptionEvent = async (event: FlatSubscriptionEvent<string>) => {
   const eventRecorded = await recordWebhookEvent(PROVIDER, event.webhookId, event.webhookEventType);
   const existingSubscription = await getSubscriptionByProviderId(PROVIDER, event.id);

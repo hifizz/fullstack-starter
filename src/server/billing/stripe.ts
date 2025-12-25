@@ -189,6 +189,12 @@ const syncStripeSubscription = async (
   });
 };
 
+export const __test__ = {
+  mapStripeStatus,
+  resolvePlanKey,
+  resolveUserId,
+};
+
 const handleRefundEvent = async (
   charge: Stripe.Charge & { invoice?: string | Stripe.Invoice | null },
 ) => {
