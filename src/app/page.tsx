@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { MarketingShell } from "~/components/marketing/marketing-shell";
 
@@ -57,6 +58,18 @@ const platforms = [
   { name: "Deepseek", status: "Coming soon" },
 ];
 
+function InstallChromeButton() {
+  return (
+    <Link
+      href="/install"
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-ink)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
+    >
+      <Icon icon="logos:chrome" width={18} height={18} aria-hidden="true" className="shrink-0" />
+      <span>Install for Chrome</span>
+    </Link>
+  );
+}
+
 export default function HomePage() {
   return (
     <MarketingShell>
@@ -75,12 +88,7 @@ export default function HomePage() {
               searchable, reusable knowledge layer.
             </p>
             <div className="flex flex-wrap items-center gap-4">
-              <Link
-                href="/install"
-                className="inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
-              >
-                Install for Chrome
-              </Link>
+              <InstallChromeButton />
             </div>
             <div className="flex flex-wrap gap-3 text-xs text-[color:var(--marketing-muted)]">
               <span className="rounded-full border border-[color:var(--marketing-border)] px-3 py-1">
@@ -281,12 +289,7 @@ export default function HomePage() {
           Start with Gemini today, and be ready for the next wave of platforms as we roll them out.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/install"
-            className="inline-flex items-center justify-center rounded-full bg-[color:var(--marketing-ink)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
-          >
-            Install for Chrome
-          </Link>
+          <InstallChromeButton />
         </div>
       </section>
     </MarketingShell>
