@@ -1,13 +1,17 @@
+import type { BillingProvider, PlanKey, SubscriptionStatus } from "~/lib/billing/types";
+
 export type AuthUserDTO = {
   id: string;
   email: string;
   name?: string | null;
   image?: string | null;
+  isPro?: boolean;
   plan?: {
-    id: string;
-    name: string;
-    status: "trial" | "active" | "past_due" | "canceled";
-    trialEndsAt?: string | null;
+    key: PlanKey;
+    status: SubscriptionStatus | null;
+    currentPeriodEnd?: string | null;
+    cancelAtPeriodEnd?: boolean;
+    provider?: BillingProvider | null;
   } | null;
 };
 

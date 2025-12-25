@@ -89,3 +89,47 @@ export const verification = createTable("verification", {
   createdAt: timestamp("created_at").$defaultFn(() => new Date()),
   updatedAt: timestamp("updated_at").$defaultFn(() => new Date()),
 });
+
+export const userSubscription = createTable(
+  "user_subscription",
+  () => ({
+    userId: text("user_id")
+      .primaryKey()
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    planKey: text("plan_key").notNull(),
+    provider: text("provider").notNull(),
+    status: text("status").notNull(),
+    currentPeriodStart: timestamp("current_period_start").notNull(),
+    currentPeriodEnd: timestamp("current_period_end").notNull(),
+    cancelAtPeriodEnd: boolean("cancel_at_period_end").default(false).notNull(),
+    trialEndsAt: timestamp("trial_ends_at"),
+    trialUsed: boolean("trial_used").default(false).notNull(),
+    pastDueAt: timestamp("past_due_at"),
+    providerCustomerId: text("provider_customer_id"),
+    providerSubscriptionId: text("provider_subscription_id"),
+    createdAt: timestamp("created_at")
+      .$defaultFn(() => new Date())
+      .notNull(),
+    updatedAt: timestamp("updated_at")
+      .$defaultFn(() => new Date())
+      .notNull(),
+  }),
+  (t) => [
+    index("user_subscription_user_id_idx").on(t.userId),
+    index("user_subscription_provider_idx").on(t.provider, t.providerSubscriptionId),
+  ],
+);
+
+export const billingWebhookEvent = createTable(
+  "billing_webhook_event",
+  () => ({
+    id: text("id").primaryKey(),
+    provider: text("provider").notNull(),
+    eventType: text("event_type").notNull(),
+    receivedAt: timestamp("received_at")
+      .$defaultFn(() => new Date())
+      .notNull(),
+  }),
+  (t) => [index("billing_webhook_event_provider_idx").on(t.provider)],
+);
