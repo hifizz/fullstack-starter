@@ -1,4 +1,4 @@
-import { and, eq, gt, or, sql } from "drizzle-orm";
+import { and, eq, gt, isNotNull, or } from "drizzle-orm";
 import { db } from "~/server/db";
 import { syncRecord } from "~/server/db/schema";
 import type { SyncRecordDTO } from "~/types/sync";
@@ -49,10 +49,13 @@ export async function pullSyncRecords(options: {
   const conditions = [eq(syncRecord.userId, options.userId)];
 
   if (sinceDate) {
-    conditions.push(
-      sql`(${syncRecord.updatedAt} > ${sinceDate})
-           or (${syncRecord.deletedAt} is not null and ${syncRecord.deletedAt} > ${sinceDate})`,
+    const sinceCondition = or(
+      gt(syncRecord.updatedAt, sinceDate),
+      and(isNotNull(syncRecord.deletedAt), gt(syncRecord.deletedAt, sinceDate)),
     );
+    if (sinceCondition) {
+      conditions.push(sinceCondition);
+    }
   }
 
   const rows = await db
