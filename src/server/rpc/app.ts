@@ -4,9 +4,11 @@ import type { MiddlewareHandler } from "hono";
 import { z } from "zod";
 import { auth } from "~/lib/auth";
 import type { AuthMeResponseDTO } from "~/types/auth";
+import type { SyncClearRequestDTO, SyncPullRequestDTO, SyncPushRequestDTO } from "~/types/sync";
 import { getProfileForUser } from "~/server/billing/profile-service";
 import { createCheckout } from "~/server/billing/billing-service";
 import type { CheckoutRequestDTO } from "~/lib/billing/types";
+import { clearSyncRecords, pullSyncRecords, pushSyncRecords } from "~/server/sync/sync-service";
 
 type SessionData = NonNullable<Awaited<ReturnType<typeof auth.api.getSession>>>;
 
@@ -57,6 +59,28 @@ const CheckoutSchema = z.object({
   cancelUrl: z.string().optional(),
 });
 
+const SyncRecordSchema = z.object({
+  recordId: z.string().min(1),
+  recordType: z.enum(["chat", "note"]),
+  payload: z.string(),
+  updatedAt: z.string().datetime(),
+  deletedAt: z.string().datetime().optional(),
+});
+
+const SyncPullSchema = z.object({
+  since: z.string().datetime().optional(),
+  deviceId: z.string().min(1),
+});
+
+const SyncPushSchema = z.object({
+  deviceId: z.string().min(1),
+  records: z.array(SyncRecordSchema),
+});
+
+const SyncClearSchema = z.object({
+  deviceId: z.string().min(1),
+});
+
 const app = new Hono<{ Variables: RpcVariables }>().basePath("/api");
 
 const routes = app
@@ -85,6 +109,38 @@ const routes = app
       const message = error instanceof Error ? error.message : "Checkout failed";
       return c.json({ error: message }, 400);
     }
+  })
+  .post("/rpc/sync/pull", requireSession, zValidator("json", SyncPullSchema), async (c) => {
+    const session = c.get("session");
+    const input = c.req.valid("json") as SyncPullRequestDTO;
+
+    const response = await pullSyncRecords({
+      userId: session.user.id,
+      since: input.since,
+    });
+
+    return c.json(response);
+  })
+  .post("/rpc/sync/push", requireSession, zValidator("json", SyncPushSchema), async (c) => {
+    const session = c.get("session");
+    const input = c.req.valid("json") as SyncPushRequestDTO;
+
+    const response = await pushSyncRecords({
+      userId: session.user.id,
+      records: input.records,
+    });
+
+    return c.json(response);
+  })
+  .post("/rpc/sync/clear", requireSession, zValidator("json", SyncClearSchema), async (c) => {
+    const session = c.get("session");
+    const _input = c.req.valid("json") as SyncClearRequestDTO;
+
+    const response = await clearSyncRecords({
+      userId: session.user.id,
+    });
+
+    return c.json(response);
   });
 
 export type AppType = typeof routes;

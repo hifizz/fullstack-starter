@@ -62,9 +62,9 @@ function InstallChromeButton() {
   return (
     <Link
       href="/install"
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-ink)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-ink)] pl-3 pr-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
     >
-      <Icon icon="logos:chrome" width={18} height={18} aria-hidden="true" className="shrink-0" />
+      <Icon icon="logos:chrome" width={32} height={32} aria-hidden="true" className="shrink-0" />
       <span>Install for Chrome</span>
     </Link>
   );

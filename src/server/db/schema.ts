@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm";
 import {
   index,
+  primaryKey,
   pgTableCreator,
   text,
   timestamp,
@@ -118,6 +119,25 @@ export const userSubscription = createTable(
   (t) => [
     index("user_subscription_user_id_idx").on(t.userId),
     index("user_subscription_provider_idx").on(t.provider, t.providerSubscriptionId),
+  ],
+);
+
+export const syncRecord = createTable(
+  "sync_records",
+  (d) => ({
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    recordType: text("record_type").notNull(),
+    recordId: text("record_id").notNull(),
+    payload: text("payload").notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+  }),
+  (t) => [
+    primaryKey({ columns: [t.userId, t.recordType, t.recordId] }),
+    index("sync_record_user_updated_at_idx").on(t.userId, t.updatedAt),
+    index("sync_record_user_deleted_at_idx").on(t.userId, t.deletedAt),
   ],
 );
 
