@@ -1,8 +1,8 @@
 import "~/styles/globals.css";
 
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Geist } from "next/font/google";
 import { Header } from "~/components/layout/header";
 
 export const metadata: Metadata = {
@@ -21,10 +21,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+			<head>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
               try {
                 if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                   document.documentElement.classList.add('dark')
@@ -33,9 +33,9 @@ export default function RootLayout({
                 }
               } catch (_) {}
             `,
-          }}
-        />
-      </head>
+					}}
+				/>
+			</head>
 			<body>
 				<ThemeProvider
 					attribute="class"
