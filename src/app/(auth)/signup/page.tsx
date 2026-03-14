@@ -1,9 +1,9 @@
 import { SignUpForm } from "../_components/signup-form";
 
 export default function SignUpPage() {
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <SignUpForm />
-    </div>
-  );
-} 
+	return (
+		<div className="flex min-h-screen items-center justify-center">
+			<SignUpForm />
+		</div>
+	);
+}
