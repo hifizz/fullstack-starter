@@ -5,12 +5,20 @@
 		"clientKind": "git",
 		"useIgnoreFile": true
 	},
-	"files": { "ignoreUnknown": false, "ignore": [] },
-	"formatter": { "enabled": true },
-	"organizeImports": { "enabled": true },
+	"files": {
+		"ignoreUnknown": false,
+		"ignore": []
+	},
+	"formatter": {
+		"enabled": true
+	},
+	"organizeImports": {
+		"enabled": true
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
+			"recommended": true,
 			"nursery": {
 				"useSortedClasses": {
 					"level": "warn",
@@ -20,7 +28,23 @@
 					}
 				}
 			},
-			"recommended": true
+			"security": {
+				"noDangerouslySetInnerHtml": "off"
+			},
+			"a11y": {
+				"useFocusableInteractive": "off",
+				"useSemanticElements": "off",
+				"noRedundantRoles": "off"
+			},
+			"style": {
+				"useSelfClosingElements": "off"
+			},
+			"suspicious": {
+				"noArrayIndexKey": "warn"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "warn"
+			}
 		}
 	}
 }

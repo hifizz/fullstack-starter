@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "~/server/db";
 import { env } from "~/env";
+import { db } from "~/server/db";
 import { sendEmail } from "./email";
 
 const ResetPasswordTemplate = ({ url }: { url: string }) => `
@@ -13,19 +13,19 @@ const ResetPasswordTemplate = ({ url }: { url: string }) => `
 `;
 
 export const auth = betterAuth({
-  database: drizzleAdapter(db, {
-    provider: "pg",
-  }),
-  emailAndPassword: {
-    enabled: true,
-    sendResetPassword: async ({ user, url }) => {
-      await sendEmail({
-        to: user.email,
-        subject: "Reset your password",
-        html: ResetPasswordTemplate({ url }),
-      });
-    },
-  },
-  secret: env.BETTER_AUTH_SECRET,
-  baseUrl: env.BETTER_AUTH_URL,
+	database: drizzleAdapter(db, {
+		provider: "pg",
+	}),
+	emailAndPassword: {
+		enabled: true,
+		sendResetPassword: async ({ user, url }) => {
+			await sendEmail({
+				to: user.email,
+				subject: "Reset your password",
+				html: ResetPasswordTemplate({ url }),
+			});
+		},
+	},
+	secret: env.BETTER_AUTH_SECRET,
+	baseUrl: env.BETTER_AUTH_URL,
 });
