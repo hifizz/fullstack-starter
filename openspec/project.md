@@ -1,31 +1,50 @@
 # Project Context
 
 ## Purpose
-[Describe your project's purpose and goals]
+- This project is a Next.js full-stack starter that provides authentication, database integration, and reusable UI building blocks.
 
 ## Tech Stack
-- [List your primary technologies]
-- [e.g., TypeScript, React, Node.js]
+- TypeScript
+- Next.js App Router
+- React
+- Drizzle ORM
+- PostgreSQL
+- ESLint (Next.js 16)
+- pnpm
 
 ## Project Conventions
 
 ### Code Style
-[Describe your code style preferences, formatting rules, and naming conventions]
+- Follow `.editorconfig` for indentation and basic editor behavior.
+- During normal development, do not run formatting or other style-only rewrites as part of the iterative coding loop.
+- Type safety is mandatory during development. Do not allow type errors, explicit `any`, non-null assertions, or TS comment bypasses without explicit approval.
+- Style differences are non-blocking during implementation.
 
 ### Architecture Patterns
-[Document your architectural decisions and patterns]
+- Prefer small composable functions and components.
+- Keep server code under `src/server` and shared helpers under `src/lib`.
+- Use framework conventions before adding custom configuration.
 
 ### Testing Strategy
-[Explain your testing approach and requirements]
+- There is no dedicated test runner configured yet.
+- `pnpm typecheck` and `pnpm check` are mandatory development gates for TypeScript and Next.js code changes.
+- Prefer `pnpm verify` as the standard validation command during implementation.
+- Code style differences (single/double quotes, semicolons, formatting) are not development gates.
 
 ### Git Workflow
-[Describe your branching strategy and commit conventions]
+- Use Conventional Commits for commit messages.
+- Pre-commit runs `pnpm verify` after staged changes are prepared.
 
 ## Domain Context
-[Add domain-specific knowledge that AI assistants need to understand]
+- The repository includes auth flows, database schema management, and shared UI components for a full-stack starter application.
 
 ## Important Constraints
-[List any technical, business, or regulatory constraints]
+- Do not proactively change formatting, import order, or code style during feature work.
+- Development validation must focus on TypeScript correctness and Next.js ESLint correctness rather than stylistic consistency.
+- Avoid workflow friction for AI-generated code unless the issue is likely to break runtime behavior, type safety, or security.
 
 ## External Dependencies
-[Document key external services, APIs, or systems]
+- PostgreSQL
+- Better Auth
+- Drizzle ORM
+- Next.js ecosystem packages

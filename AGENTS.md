@@ -31,7 +31,9 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 ## Build, Test, and Development Commands
 - `pnpm dev` runs the Next.js dev server with Turbo.
 - `pnpm build` creates a production build; `pnpm start` serves it. `pnpm preview` does build + start in one command.
-- `pnpm check` runs Biome lint/format checks; `pnpm check:write` applies fixes; `pnpm typecheck` runs `tsc --noEmit`.
+- `pnpm check` runs the ESLint CLI with Next.js 16's official lint configuration.
+- `pnpm typecheck` runs `tsc --noEmit` and is a required development validation step.
+- `pnpm verify` runs `pnpm typecheck && pnpm check` and is the default verification command after TypeScript or Next.js code changes.
 - Database: `pnpm db:push` (dev sync), `pnpm db:generate` + `pnpm db:migrate` (migrations), `pnpm db:studio` (GUI). `./start-database.sh` boots a local Postgres container from `.env`.
 
 ## Coding guideline
@@ -46,11 +48,16 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 
 ## Coding Style & Naming Conventions
 - TypeScript + React (Next.js App Router). Keep components in PascalCase and hooks prefixed with `use`.
-- Use `.editorconfig` defaults (2-space indent, max line length 100) and let Biome format and organize imports.
+- Use `.editorconfig` defaults (2-space indent, max line length 100).
+- During development, do not proactively run formatters or other style-only rewrites.
+- During development, you must run TypeScript validation and Next.js ESLint validation. Do not ship code with type errors, explicit `any`, non-null assertions, or TS comment bypasses.
 - Keep route segments lowercase (kebab-case when needed) and colocate UI components in `src/components`.
 
 ## Testing Guidelines
-- No dedicated test runner is configured yet. Use `pnpm typecheck` and `pnpm check` as the current quality gates.
+- No dedicated test runner is configured yet.
+- During routine development, `pnpm typecheck` and `pnpm check` are required quality gates for TypeScript and Next.js code changes.
+- Prefer running `pnpm verify` as the standard validation command.
+- Code style differences (single/double quotes, semicolons, formatting) are not required development gates.
 - If you add tests, use `*.test.ts`/`*.test.tsx` and introduce a `pnpm test` script alongside the chosen framework.
 
 ## Commit & Pull Request Guidelines
@@ -63,3 +70,7 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 
 ## Agent-Specific Instructions
 - For proposals or significant changes, consult `openspec/AGENTS.md` and follow the OpenSpec workflow.
+- During development, always run `pnpm verify` after substantive TypeScript or Next.js code changes unless the user explicitly tells you not to.
+- During development, do not proactively run style-only fixes unless the user explicitly asks.
+- Default verification priority is: TypeScript type correctness first, Next.js ESLint correctness second, runtime/build errors third.
+- Pre-commit runs `pnpm verify` only.
