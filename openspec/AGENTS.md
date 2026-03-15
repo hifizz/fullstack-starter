@@ -15,6 +15,17 @@ Instructions for AI coding assistants using OpenSpec for spec-driven development
 - Validate: `openspec validate [change-id] --strict` and fix issues
 - Request approval: Do not start implementation until proposal is approved
 
+## Project-Specific Working Rules
+
+- In this repository, do not run format during normal development work.
+- Do not proactively run import sorting or other style-only rewrites during normal development work.
+- Treat `pnpm typecheck` and `pnpm check` as required development validation for TypeScript and Next.js code changes.
+- Use `pnpm verify` as the default validation command after implementation.
+- During implementation, prioritize TypeScript correctness, Next.js ESLint correctness, and runtime/build failures.
+- Do not allow explicit `any`, non-null assertions, or TS comment bypasses unless the user explicitly approves the exception.
+- Non-functional cleanup belongs to pre-commit on staged files, not to the iterative coding loop.
+- Pre-commit runs `pnpm verify` only.
+
 ## Three-Stage Workflow
 
 ### Stage 1: Creating Changes
