@@ -1,9 +1,12 @@
 import "~/styles/globals.css";
 
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Header } from "~/components/layout/header";
+import { cn } from "~/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
 	title: "Create T3 App",
@@ -20,7 +23,7 @@ export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+		<html lang="en" className={cn(geist.variable, "font-sans", inter.variable)} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
